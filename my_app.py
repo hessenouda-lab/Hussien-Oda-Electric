@@ -4,7 +4,7 @@ import time
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# 2. تهيئة البيانات
+# 2. تهيئة البيانات الثابتة
 if 'reviews' not in st.session_state:
     st.session_state.reviews = [{"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة."}]
 if 'my_videos' not in st.session_state:
@@ -12,7 +12,23 @@ if 'my_videos' not in st.session_state:
 if 'my_images' not in st.session_state:
     st.session_state.my_images = ["https://via.placeholder.com/600x400"]
 
-# 3. التنسيق الماسي الفخم (العودة للأصل)
+# 3. نافذة التأكيد (المودال الذهبي المعتمد)
+@st.dialog("مراجعة رأيك قبل النشر ⚡")
+def confirm_dialog(name, text):
+    st.markdown(f"""
+        <div style="background-color: #1a1e24; padding: 25px; border-radius: 15px; border: 3px solid #d4af37; text-align: right; color: white;">
+            <p style="color: #d4af37; font-weight: bold; font-size: 24px;">👤 الاسم: {name}</p>
+            <p style="font-size: 22px;">💬 التعليق: "{text}"</p>
+        </div>
+    """, unsafe_allow_html=True)
+    st.write("---")
+    if st.button("اعتماد ونشر على الموقع ✅", use_container_width=True, type="primary"):
+        st.session_state.reviews.insert(0, {"name": name, "text": text})
+        st.success("تم النشر بنجاح!")
+        time.sleep(1)
+        st.rerun()
+
+# 4. التنسيق الماسي (رجوع المقاسات الأصلية)
 st.markdown("""
 <style>
     .stApp { background-color: #0b0d11; }
@@ -25,54 +41,48 @@ st.markdown("""
     .client-name { color: #d4af37 !important; font-size: 32px !important; font-weight: bold; }
     .client-text { color: #ffffff !important; font-size: 26px !important; margin-top: 15px; }
     
-    /* تصميم الأزرار الروابط */
-    .btn-diamond {
+    .diamond-btn {
         display: block; width: 100%; height: 85px; line-height: 85px; 
         text-align: center; font-size: 28px; font-weight: bold; 
         border-radius: 20px; text-decoration: none !important; 
         color: white !important; margin-bottom: 15px;
     }
-    .call-bg { background: linear-gradient(45deg, #ff4b4b, #b22222); }
-    .wa-bg { background: linear-gradient(45deg, #25d366, #128c7e); }
+    .red-btn { background: linear-gradient(45deg, #ff4b4b, #b22222); }
+    .green-btn { background: linear-gradient(45deg, #25d366, #128c7e); }
     
     .social-btn {
         display: inline-block; padding: 18px 35px; margin: 8px;
         border-radius: 15px; text-decoration: none !important;
         color: white !important; font-size: 22px; font-weight: bold;
     }
-    .fb-bg { background-color: #1877F2; }
-    .tt-bg { background-color: #000000; border: 2px solid #fe2c55; }
-    .yt-bg { background-color: #FF0000; }
+    .fb-bg { background-color: #1877F2; } .tt-bg { background-color: #000000; border: 2px solid #fe2c55; } .yt-bg { background-color: #FF0000; }
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 4. أزرار الاتصال (كود JS لاختراق الماسنجر)
-def open_link(url):
-    st.components.v1.html(f'<script>window.open("{url}", "_blank");</script>', height=0)
-
+# 5. أزرار الاتصال (باستخدام روابط صريحة لضمان العمل)
 col1, col2 = st.columns(2)
 with col1:
-    st.markdown('<a href="tel:01123393030" class="btn-diamond call-bg">📞 اتصل بنا الآن</a>', unsafe_allow_html=True)
+    st.markdown('<a href="tel:01123393030" class="diamond-btn red-btn">📞 اتصل بنا الآن</a>', unsafe_allow_html=True)
 with col2:
-    st.markdown('<a href="https://wa.me/201123393030" target="_blank" class="btn-diamond wa-bg">💬 راسلنا واتساب</a>', unsafe_allow_html=True)
+    st.markdown('<a href="https://wa.me/201123393030" target="_blank" class="diamond-btn green-btn">💬 راسلنا واتساب</a>', unsafe_allow_html=True)
 
 st.write("---")
 
-# 5. روابط السوشيال ميديا
+# 6. روابط السوشيال ميديا
 st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
-st.markdown("""
+st.markdown(f"""
     <div style="text-align: center;">
-        <a href="https://www.facebook.com/profile.php?id=61573193272647" class="social-btn fb-bg">🔵 فيسبوك</a>
-        <a href="https://www.tiktok.com/@hessenouda1" class="social-btn tt-bg">⚫ تيك توك</a>
-        <a href="https://www.youtube.com/channel/UCKF5VXyc5Uma_X4X_S5ld8w" class="social-btn yt-bg">🔴 يوتيوب</a>
+        <a href="https://www.facebook.com/profile.php?id=61573193272647" target="_blank" class="social-btn fb-bg">🔵 فيسبوك</a>
+        <a href="https://www.tiktok.com/@hessenouda1" target="_blank" class="social-btn tt-bg">⚫ تيك توك</a>
+        <a href="https://www.youtube.com/channel/UCKF5VXyc5Uma_X4X_S5ld8w" target="_blank" class="social-btn yt-bg">🔴 يوتيوب</a>
     </div>
 """, unsafe_allow_html=True)
 
 st.write("---")
 
-# 6. معرض الأعمال
+# 7. معرض الأعمال
 st.markdown("<h2>📸 معرض أعمالنا</h2>", unsafe_allow_html=True)
 t1, t2 = st.tabs(["🎥 فيديوهات الشغل", "🖼️ صور المواقع"])
 with t1:
@@ -82,7 +92,7 @@ with t2:
 
 st.write("---")
 
-# 7. عرض التعليقات (بالتنسيق الضخم الأصلي)
+# 8. عرض التعليقات (بالتنسيق الضخم الأصلي المعتمد)
 st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
 for r in st.session_state.reviews:
     st.markdown(f"""
@@ -94,19 +104,24 @@ for r in st.session_state.reviews:
 
 st.write("---")
 
-# 8. فورم الإضافة
-with st.form("final_diamond_v5", clear_on_submit=True):
+# 9. فورم التعليق مع نافذة التأكيد
+with st.form("diamond_main_form", clear_on_submit=True):
     u_name = st.text_input("اسمك الكريم:")
-    u_text = st.text_area("رأيك في الخدمة:")
-    if st.form_submit_button("نشر التعليق ✨"):
-        if u_name and u_text:
-            st.session_state.reviews.insert(0, {"name": u_name, "text": u_text})
-            st.rerun()
+    options = ["اختر رأياً جاهزاً...", "شغل احترافي وتسليم في الموعد ⚡", "أمانة ودقة في المواعيد ✅", "تأسيس كهرباء ممتاز ⭐"]
+    selected = st.selectbox("رأيك في الخدمة:", options)
+    u_custom = st.text_area("أو اكتب رأيك الخاص:")
+    if st.form_submit_button("عرض التعليق للتأكيد ✨"):
+        final_msg = u_custom if u_custom.strip() != "" else (selected if selected != options[0] else "")
+        if u_name and final_msg:
+            confirm_dialog(u_name, final_msg)
+        else:
+            st.warning("⚠️ نرجو كتابة الاسم والتعليق")
 
-# 9. لوحة التحكم الجانبية
-with st.sidebar.expander("🔐 إدارة الموقع"):
-    if st.text_input("كلمة السر:", type="password") == "1234":
+# 10. لوحة التحكم (السايد بار)
+with st.sidebar.expander("🔐 إدارة المحتوى"):
+    passw = st.text_input("كلمة السر:", type="password")
+    if passw == "1234":
         new_v = st.text_input("رابط يوتيوب جديد:")
-        if st.button("إضافة"):
+        if st.button("إضافة فيديو"):
             st.session_state.my_videos.append(new_v)
             st.rerun()
