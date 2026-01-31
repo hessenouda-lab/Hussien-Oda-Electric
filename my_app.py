@@ -4,7 +4,7 @@ import time
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# 2. تهيئة البيانات
+# 2. البيانات الأساسية (تجنب KeyError)
 if 'reviews' not in st.session_state:
     st.session_state.reviews = [
         {"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة."},
@@ -55,7 +55,7 @@ st.markdown("""
 
     /* تكبير خطوط الاختيار والإدخال */
     label { font-size: 22px !important; color: #d4af37 !important; font-weight: bold !important; }
-    .stSelectbox, .stTextInput, .stTextArea { font-size: 20px !important; }
+    input, textarea, .stSelectbox { font-size: 20px !important; }
     
     div.stButton > button {
         height: 65px !important;
@@ -68,7 +68,7 @@ st.markdown("""
 
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 5. أزرار الاتصال السريع
+# 5. أزرار الاتصال السريع (روابط مباشرة)
 col1, col2 = st.columns(2)
 with col1:
     st.markdown('<a href="tel:01123393030" style="text-decoration:none;"><div style="background: #ff4b4b; color:white; padding:25px; border-radius:15px; text-align:center; font-weight:bold; font-size:24px;">📞 اتصل بنا الآن</div></a>', unsafe_allow_html=True)
@@ -89,12 +89,27 @@ for r in st.session_state.reviews:
 
 st.write("---")
 
-# 7. فورم إضافة التعليق (مع ميزة الاختيارات الجاهزة)
+# 7. فورم إضافة التعليق (مع الاختيارات المختصرة)
 st.markdown("### ✍️ أضف تقييمك بضغطة واحدة")
-with st.form("hussien_smart_form", clear_on_submit=True):
+with st.form("hussien_final_pro_form", clear_on_submit=True):
     u_name = st.text_input("اسم العميل بالكامل:")
     
-    # قائمة اختيارات جاهزة (مختصرة وفخمة)
     options = [
-        "اختر تقييماً جاهزاً أو اكتب تعليقك بالأسفل...",
-        "شغل
+        "اختر رأياً جاهزاً...",
+        "شغل احترافي وتسليم في الموعد ⚡",
+        "أمانة ودقة في المواعيد والخامات ✅",
+        "تأسيس كهرباء ممتاز، أنصح بالتعامل معه ⭐",
+        "رجل محترم جداً وفاهم شغله بالتفصيل 👌",
+        "خدمة ممتازة وسعر عادل جداً 💰"
+    ]
+    selected_option = st.selectbox("اختر من هذه الآراء الشائعة:", options)
+    u_text_custom = st.text_area("أو اكتب رأيك الخاص هنا:")
+    
+    submit = st.form_submit_button("إرسال للمراجعة والاعتماد ✨")
+    
+    if submit:
+        final_text = u_text_custom if u_text_custom else (selected_option if selected_option != options[0] else "")
+        if u_name and final_text:
+            confirm_dialog(u_name, final_text)
+        else:
+            st.warning("⚠️ نرجو كتابة الاسم واختيار أو كتابة التعليق")
