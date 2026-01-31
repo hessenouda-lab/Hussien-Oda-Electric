@@ -1,7 +1,11 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
+# 1. إعدادات الصفحة المطورة للبحث (SEO)
+st.set_page_config(
+    page_title="Hussien Oda Electric | كهربائي الطالبية والهرم", 
+    page_icon="⚡", 
+    layout="wide"
+)
 
 # 2. رسالة إرشادية لعملاء الماسنجر
 st.components.v1.html("""
@@ -13,7 +17,7 @@ st.components.v1.html("""
 </script>
 """, height=0)
 
-# 3. التنسيق الماسي الفخم (الاسم 32px والتعليق 26px)
+# 3. التنسيق الماسي الفخم (بدون أي تغيير في الشكل المعتمد)
 st.markdown("""
 <style>
     .stApp { background-color: #0b0d11; }
@@ -42,17 +46,17 @@ st.markdown("""
         border-radius: 15px; text-decoration: none !important;
         color: white !important; font-size: 22px; font-weight: bold;
     }
-    .fb-bg { background-color: #1877F2; } 
-    .tt-bg { background-color: #000000; border: 2px solid #fe2c55; } 
-    .yt-bg { background-color: #FF0000; }
+    .fb-bg { background-color: #1877F2; } .tt-bg { background-color: #000000; border: 2px solid #fe2c55; } .yt-bg { background-color: #FF0000; }
     
     .announcement-box {
-        background-color: rgba(212, 175, 55, 0.1);
-        border: 3px solid #d4af37;
-        padding: 30px;
-        border-radius: 20px;
-        text-align: center;
-        margin-bottom: 40px;
+        background-color: rgba(212, 175, 55, 0.1); border: 3px solid #d4af37;
+        padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 40px;
+    }
+    
+    .location-tag {
+        display: inline-block; background: rgba(212, 175, 55, 0.15); color: #d4af37;
+        padding: 8px 15px; border-radius: 10px; margin: 5px; border: 1px solid #d4af37;
+        font-size: 16px; font-weight: bold;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -79,7 +83,7 @@ with col2:
 
 st.write("---")
 
-# 6. أزرار السوشيال ميديا (فيسبوك، تيك توك، يوتيوب)
+# 6. أزرار السوشيال ميديا
 st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
 st.markdown(f"""
     <div style="text-align: center;">
@@ -91,9 +95,8 @@ st.markdown(f"""
 
 st.write("---")
 
-# 7. قسم آراء العملاء (20 تعليق ثابت بتنسيق فخم)
+# 7. قسم آراء العملاء الـ 20 المعتمدين
 st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
-
 fixed_reviews = [
     ("م/ أحمد رأفت", "شغل تسليم مفتاح ومواعيد دقيقة جداً. تأسيس احترافي."),
     ("محمد السيد", "المهندس حسين مثال للأمانة والشطارة في الشغل، برافو."),
@@ -105,7 +108,7 @@ fixed_reviews = [
     ("سامح شكري", "شغل نظيف جداً وتشطيبات فاخرة للوحات الكهرباء."),
     ("عصام حلمي", "تم حل مشكلة الرعشة وتوزيع الأحمال نهائياً بفضلك."),
     ("إبراهيم فوزي", "دقة متناهية في تنفيذ المخططات الهندسية المعقدة."),
-    ("خالد السعدني", "تعامل راقي جداً والتزام تام بالكلمة والموعد."),
+    ("خالد السعدني", "تعامل راقي جداً والتزام بكلمته والموعد."),
     ("مصطفى كامل", "أفضل فني كهرباء تعاملت معه، ذوق وأدب وإتقان."),
     ("وائل منصور", "تنسيق اللوحة الرئيسية كان مبهراً ومنظماً كأنه لوحة فنية."),
     ("تامر يحيى", "شكراً على الأمانة في اختيار الكابلات والمواسير الأصلية."),
@@ -124,3 +127,16 @@ for name, text in fixed_reviews:
             <div class="client-text">{text}</div>
         </div>
     """, unsafe_allow_html=True)
+
+st.write("---")
+
+# 8. قسم نطاق الخدمة (SEO) لظهورك في بحث جوجل
+st.markdown("<h2>📍 نغطي كافة مناطق الجيزة والقاهرة</h2>", unsafe_allow_html=True)
+locations = [
+    "الطالبية هرم", "فيصل", "الدقي", "عثمان محرم", "العمرانية", "شارع الزهور", 
+    "الثلاثيني", "شارع الدكتور", "شارع العروبة", "شارع سعد إمام", "شارع ترسا", 
+    "المريوطية", "الليبيني", "شارع زغلول", "السيدة زينب", "بوابات حدائق الأهرام"
+]
+location_html = "".join([f'<span class="location-tag">{loc}</span>' for loc in locations])
+st.markdown(f'<div style="text-align: center; padding: 20px;">{location_html}</div>', unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #888;'>نقدم خدماتنا في محيط 18 كم بجميع شوارع الطالبية والمنطقة المجاورة</p>", unsafe_allow_html=True)
