@@ -31,7 +31,7 @@ def confirm_dialog(name, text):
         time.sleep(1)
         st.rerun()
 
-# 4. التنسيق الفخم (CSS الماسي)
+# 4. التنسيق الفخم (CSS الماسي المعتمد)
 st.markdown("""
     <style>
     .stApp { background-color: #0b0d11; }
@@ -51,56 +51,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 5. لوحة التحكم السرية
+# 5. لوحة التحكم السرية في الجانب
 with st.sidebar.expander("🔐 لوحة تحكم حسين"):
     adm_pass = st.text_input("كلمة السر:", type="password")
     if adm_pass == "1234":
-        v_url = st.text_input("رابط فيديو يوتيوب:")
+        v_url = st.text_input("أضف رابط فيديو يوتيوب:")
         if st.button("حفظ الفيديو 🎥"): st.session_state.my_videos.append(v_url)
-        i_url = st.text_input("رابط صورة:")
-        if st.button("حفظ الصورة 🖼️"): st.session_state.my_images.append(i_url)
-
-st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
-
-# 6. أزرار الاتصال الذكية
-col1, col2 = st.columns(2)
-with col1:
-    if st.button("📞 اتصل بنا الآن", use_container_width=True):
-        st.components.v1.html("""<script>window.location.href = "tel:01123393030";</script>""", height=0)
-with col2:
-    if st.button("💬 راسلنا واتساب", use_container_width=True):
-        st.components.v1.html("""<script>window.open("https://api.whatsapp.com/send?phone=201123393030", "_blank");</script>""", height=0)
-
-st.write("---")
-
-# 7. روابط السوشيال ميديا الحقيقية
-st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
-st.markdown("""
-    <div style="text-align: center;">
-        <a href="https://www.facebook.com/profile.php?id=61573193272647" target="_blank" class="social-link fb">🔵 فيسبوك</a>
-        <a href="https://www.tiktok.com/@hessenouda1" target="_blank" class="social-link tt">⚫ تيك توك</a>
-        <a href="https://www.youtube.com/channel/UCKF5VXyc5Uma_X4X_S5ld8w" target="_blank" class="social-link yt">🔴 يوتيوب</a>
-    </div>
-""", unsafe_allow_html=True)
-
-st.write("---")
-
-# 8. معرض الأعمال
-st.markdown("<h2>📸 معرض أعمالنا</h2>", unsafe_allow_html=True)
-t1, t2 = st.tabs(["🎥 فيديوهات الشغل", "🖼️ صور المواقع"])
-with t1:
-    for v in st.session_state.my_videos:
-        st.video(v)
-with t2:
-    for img in st.session_state.my_images:
-        st.image(img, use_container_width=True)
-
-st.write("---")
-
-# 9. عرض التعليقات
-st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
-for r in st.session_state.reviews:
-    st.markdown(f'''
-        <div class="review-box">
-            <div class="client-name">👤 {r.get("name")}</div>
-            <div class="client-text">{r.get("text
+        i_url = st.text_input("
