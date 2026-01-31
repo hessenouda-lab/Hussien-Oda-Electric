@@ -1,10 +1,20 @@
 import streamlit as st
 import time
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
+# 1. إعدادات الصفحة مع كلمات البحث (SEO)
+st.set_page_config(
+    page_title="حسين عوده للكهرباء الحديثة - كهربائي في الطالبية والجيزة",
+    page_icon="⚡",
+    layout="wide"
+)
 
-# 2. رسالة إرشادية راقية لعملاء الماسنجر
+# 2. إضافة كلمات البحث لمحركات البحث والذكاء الاصطناعي
+st.markdown("""
+    <meta name="description" content="حسين عوده للكهرباء الحديثة - أفضل فني كهرباء في الطالبية والجيزة. تأسيس وصيانة كهرباء بأعلى جودة. رقم الهاتف: 01123393030">
+    <meta name="keywords" content="كهربائي الطالبية, فني كهرباء الجيزة, تأسيس كهرباء, حسين عوده كهرباء, كهربائي قريب مني">
+""", unsafe_allow_html=True)
+
+# 3. رسالة إرشادية راقية لعملاء الماسنجر
 st.components.v1.html("""
 <script>
     var isFB = /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
@@ -14,11 +24,11 @@ st.components.v1.html("""
 </script>
 """, height=0)
 
-# 3. تهيئة البيانات
+# 4. تهيئة البيانات
 if 'reviews' not in st.session_state:
-    st.session_state.reviews = [{"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة."}]
+    st.session_state.reviews = [{"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة في الطالبية."}]
 
-# 4. نافذة التأكيد (المودال الذهبي المعتمد)
+# 5. نافذة التأكيد الذهبية (المعتمدة)
 @st.dialog("مراجعة رأيك قبل النشر ⚡")
 def confirm_dialog(name, text):
     st.markdown(f"""
@@ -36,12 +46,11 @@ def confirm_dialog(name, text):
         time.sleep(1)
         st.rerun()
 
-# 5. التنسيق الماسي الفخم (الاسم 32px والتعليق 26px)
+# 6. التنسيق الماسي (المقاسات المعتمدة)
 st.markdown("""
 <style>
     .stApp { background-color: #0b0d11; }
     h1, h2 { color: #d4af37 !important; text-align: center; font-weight: bold; }
-    
     .review-box { 
         background: #161a21; padding: 35px; border-radius: 20px; 
         border-right: 15px solid #d4af37; margin-bottom: 25px; 
@@ -49,7 +58,6 @@ st.markdown("""
     }
     .client-name { color: #d4af37 !important; font-size: 32px !important; font-weight: bold; display: block; }
     .client-text { color: #ffffff !important; font-size: 26px !important; margin-top: 15px; display: block; line-height: 1.4; }
-    
     .diamond-btn {
         display: block; width: 100%; height: 85px; line-height: 85px; 
         text-align: center; font-size: 28px; font-weight: bold; 
@@ -58,7 +66,6 @@ st.markdown("""
     }
     .red-btn { background: linear-gradient(45deg, #ff4b4b, #b22222); }
     .green-btn { background: linear-gradient(45deg, #25d366, #128c7e); }
-    
     .social-btn {
         display: inline-block; padding: 18px 35px; margin: 8px;
         border-radius: 15px; text-decoration: none !important;
@@ -68,18 +75,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# 7. محتوى الصفحة
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; color:white; font-size:20px;'>نخبة فنيي الكهرباء في الطالبية والجيزة - خبرة ودقة في التنفيذ</p>", unsafe_allow_html=True)
 
-# 6. أزرار التواصل المباشر
 col1, col2 = st.columns(2)
 with col1:
-    st.markdown('<a href="tel:01123393030" class="diamond-btn red-btn">📞 اتصل بنا الآن</a>', unsafe_allow_html=True)
+    st.markdown('<a href="tel:01123393030" class="diamond-btn red-btn">📞 اتصل بنا: 01123393030</a>', unsafe_allow_html=True)
 with col2:
-    st.markdown('<a href="https://wa.me/201123393030" target="_blank" class="diamond-btn green-btn">💬 راسلنا واتساب</a>', unsafe_allow_html=True)
+    st.markdown('<a href="https://wa.me/201123393030" target="_blank" class="diamond-btn green-btn">💬 واتساب: 01123393030</a>', unsafe_allow_html=True)
 
 st.write("---")
 
-# 7. منصات التواصل الاجتماعي (التي سقطت سهواً وعادت الآن)
+# 8. السوشيال ميديا
 st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
 st.markdown(f"""
     <div style="text-align: center;">
@@ -91,7 +99,7 @@ st.markdown(f"""
 
 st.write("---")
 
-# 8. عرض التعليقات (بالتنسيق الضخم المعتمد)
+# 9. عرض التعليقات
 st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
 for r in st.session_state.reviews:
     st.markdown(f"""
@@ -103,28 +111,15 @@ for r in st.session_state.reviews:
 
 st.write("---")
 
-# 9. نموذج التعليق المطور مع الاختصارات السريعة
-st.markdown("<h2 style='text-align: right;'>✍️ أضف رأيك الخاص</h2>", unsafe_allow_html=True)
-
-with st.form("diamond_feedback_final_safe", clear_on_submit=True):
+# 10. نموذج التعليق
+with st.form("diamond_seo_form", clear_on_submit=True):
     u_name = st.text_input("الاسم الكريم:")
-    
-    st.markdown("<p style='color: #d4af37; text-align: right; font-weight: bold;'>اختر رأياً جاهزاً (اختياري):</p>", unsafe_allow_html=True)
-    quick_options = [
-        "لم يتم الاختيار...",
-        "شغل ممتاز وتسليم في الموعد المحدد. شكراً جزيلاً.",
-        "دقة في المواعيد واحترافية عالية في التنفيذ.",
-        "أفضل فني كهرباء تعاملت معه، ذوق وأدب وشغل نظيف.",
-        "خامات ممتازة وتأسيس هندسي على أعلى مستوى."
-    ]
-    u_quick = st.selectbox("اضغط هنا لاختيار جملة جاهزة:", quick_options)
-    u_custom = st.text_area("أو اكتب رأيك الخاص بالتفصيل:")
-    
-    submit = st.form_submit_button("عرض التعليق للتأكيد ✨")
-    
-    if submit:
+    quick_options = ["لم يتم الاختيار...", "شغل ممتاز وتسليم في الموعد.", "دقة واحترافية عالية.", "أفضل فني كهرباء في الطالبية.", "تأسيس هندسي ممتاز."]
+    u_quick = st.selectbox("اختر رأياً جاهزاً:", quick_options)
+    u_custom = st.text_area("أو اكتب رأيك الخاص:")
+    if st.form_submit_button("عرض التعليق للتأكيد ✨"):
         final_text = u_custom.strip() if u_custom.strip() else (u_quick if u_quick != "لم يتم الاختيار..." else "")
         if u_name and final_text:
             confirm_dialog(u_name, final_text)
         else:
-            st.warning("⚠️ يرجى كتابة الاسم وتحديد الرأي المطلوب")
+            st.warning("⚠️ يرجى كتابة الاسم وتحديد الرأي")
