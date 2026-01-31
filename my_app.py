@@ -3,30 +3,33 @@ import streamlit as st
 # إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# CSS التصميم الاحترافي اللي عجبك
+# CSS التصميم الاحترافي لراحة العين والوضوح
 st.markdown("""
     <style>
     .main { background-color: #0e1117; }
     .stApp { background: #0e1117; }
     .card { background: #1c1f26; border: 2px solid #ffde59; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
     h1, h2, h3 { color: #ffde59 !important; text-align: center; }
-    p { color: #ffffff !important; font-size: 18px !important; }
+    p { color: #ffffff !important; font-size: 20px !important; }
     .review-box { background-color: #262730; padding: 15px; border-radius: 10px; border-right: 5px solid #ffde59; margin-bottom: 10px; color: white; }
-    /* ستايل زرار النشر الواضح */
+    
+    /* تصميم زرار التأكيد الضخم والواضح */
     .stButton>button {
         background-color: #ffde59 !important;
         color: black !important;
         font-weight: bold !important;
         width: 100%;
-        height: 50px;
-        border-radius: 10px;
+        height: 70px; /* طول إضافي لسهولة الضغط */
+        font-size: 24px !important;
+        border-radius: 15px;
+        border: 3px solid white;
     }
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<h1>⚡ حسين عوده لخدمات الكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# أزرار التواصل
+# أزرار التواصل (اتصال + واتساب)
 col_call, col_wa = st.columns(2)
 with col_call:
     st.markdown('<a href="tel:01123393030" style="text-decoration:none;"><div style="background-color:#ff4b4b; color:white; padding:15px; border-radius:50px; text-align:center; font-size:22px; font-weight:bold;">📞 اتصل الآن</div></a>', unsafe_allow_html=True)
@@ -44,7 +47,7 @@ with c3: st.markdown('<div class="card"><h3>🛡️ أمان وحماية</h3><p
 
 st.write("---")
 
-# قسم الفيديوهات (رجعناه مكانه)
+# قسم الفيديوهات
 st.markdown("<h2>🎬 كواليس العمل</h2>", unsafe_allow_html=True)
 v_col1, v_col2 = st.columns(2)
 with v_col1:
@@ -55,43 +58,42 @@ with v_col2:
 st.write("---")
 
 # آراء العملاء
-st.markdown("<h2>⭐ آراء العملاء</h2>", unsafe_allow_html=True)
+st.markdown("<h2>💬 آراء الناس في شغلنا</h2>", unsafe_allow_html=True)
 
 if 'reviews' not in st.session_state:
     st.session_state.reviews = [
-        {"name": "محمد صلاح", "text": "شغل ممتاز وتسليم في الميعاد، متمكن جداً.", "stars": "⭐⭐⭐⭐⭐"},
-        {"name": "أحمد علي", "text": "رجل محترم وأمين في اختيار الخامات.", "stars": "⭐⭐⭐⭐⭐"}
+        {"name": "محمد صلاح", "text": "شغل ممتاز وتسليم في الميعاد، متمكن جداً."},
+        {"name": "أحمد علي", "text": "رجل محترم وأمين في اختيار الخامات."}
     ]
 
 for review in st.session_state.reviews:
-    st.markdown(f'<div class="review-box"><b>{review["name"]}:</b> "{review["text"]}" {review["stars"]}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="review-box"><b>{review["name"]}:</b> "{review["text"]}"</div>', unsafe_allow_html=True)
 
 st.write("---")
 
-# قسم "أضف تقييمك" المطور (تعديل المنطقة دي بس)
-st.markdown("### 📝 اترك بصمتك (تقييمك يهمنا)")
+# قسم "أضف تعليقك" الصريح
+st.markdown("### 📝 اكتب رأيك وتجربتك معنا")
 
-with st.form(key='my_form', clear_on_submit=True):
-    u_name = st.text_input("الاسم الكريم:")
+with st.form(key='hussien_form', clear_on_submit=True):
+    u_name = st.text_input("اكتب اسمك هنا:")
     
-    u_choice = st.selectbox("اختر رأيك الجاهز أو اكتب غيره:", 
+    u_choice = st.selectbox("اختار رأيك الجاهز (أو اكتب غيره بالأسفل):", 
                              ["ممتاز جداً.. تسلم إيدك", 
                               "مواعيد دقيقة وشغل نظيف", 
                               "رجل أمين وخلوق ومتمكن", 
-                              "غير ذلك (اكتب في الخانة بالأسفل)"])
+                              "كتابة تعليق مختلف..."])
     
-    u_custom = st.text_area("تعليق إضافي (اختياري):")
+    u_custom = st.text_area("لو عندك كلام تاني حابب تضيفه:")
     
-    u_rating = st.select_slider("اختر عدد النجوم:", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"], value="⭐⭐⭐⭐⭐")
-    
-    submit = st.form_submit_button("✅ نشر التقييم الآن")
+    # الزرار اللي طلبته بوضوح تام
+    submit = st.form_submit_button("تأكيد ونشر التعليق ✅")
 
     if submit:
         if u_name:
-            final_comment = u_custom if u_choice == "غير ذلك (اكتب في الخانة بالأسفل)" else u_choice
-            new_entry = {"name": u_name, "text": final_comment, "stars": u_rating}
+            final_text = u_custom if u_choice == "كتابة تعليق مختلف..." else u_choice
+            new_entry = {"name": u_name, "text": final_text}
             st.session_state.reviews.insert(0, new_entry)
-            st.success("شكراً لك! تم نشر تقييمك بنجاح.")
+            st.success(f"شكراً لك يا {u_name}! تم نشر تعليقك بنجاح.")
             st.rerun()
         else:
-            st.error("من فضلك اكتب اسمك أولاً")
+            st.error("من فضلك اكتب اسمك الأول عشان التعليق يتنشر")
