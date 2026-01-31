@@ -4,6 +4,21 @@ import time
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
+# --- كود اختراق الماسنجر التلقائي ---
+# ده بيطلع تنبيه للزبون لو فاتح من جوه الفيسبوك عشان يسهل عليه
+st.components.v1.html("""
+<script>
+    var isFacebookApp = function() {
+        var ua = navigator.userAgent || navigator.vendor || window.opera;
+        return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Messenger") > -1);
+    };
+
+    if (isFacebookApp()) {
+        alert("⚠️ لضمان عمل أزرار الاتصال والواتساب، يرجى الضغط على الـ 3 نقط في الأعلى واختيار 'فتح في المتصفح' (Open in Browser)");
+    }
+</script>
+""", height=0)
+
 # 2. تهيئة البيانات الثابتة
 if 'reviews' not in st.session_state:
     st.session_state.reviews = [{"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة."}]
@@ -28,7 +43,7 @@ def confirm_dialog(name, text):
         time.sleep(1)
         st.rerun()
 
-# 4. التنسيق الماسي (رجوع المقاسات الأصلية)
+# 4. التنسيق الماسي
 st.markdown("""
 <style>
     .stApp { background-color: #0b0d11; }
@@ -61,7 +76,7 @@ st.markdown("""
 
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 5. أزرار الاتصال (باستخدام روابط صريحة لضمان العمل)
+# 5. أزرار الاتصال
 col1, col2 = st.columns(2)
 with col1:
     st.markdown('<a href="tel:01123393030" class="diamond-btn red-btn">📞 اتصل بنا الآن</a>', unsafe_allow_html=True)
@@ -92,7 +107,7 @@ with t2:
 
 st.write("---")
 
-# 8. عرض التعليقات (بالتنسيق الضخم الأصلي المعتمد)
+# 8. عرض التعليقات
 st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
 for r in st.session_state.reviews:
     st.markdown(f"""
@@ -104,24 +119,12 @@ for r in st.session_state.reviews:
 
 st.write("---")
 
-# 9. فورم التعليق مع نافذة التأكيد
+# 9. فورم التعليق
 with st.form("diamond_main_form", clear_on_submit=True):
     u_name = st.text_input("اسمك الكريم:")
-    options = ["اختر رأياً جاهزاً...", "شغل احترافي وتسليم في الموعد ⚡", "أمانة ودقة في المواعيد ✅", "تأسيس كهرباء ممتاز ⭐"]
-    selected = st.selectbox("رأيك في الخدمة:", options)
-    u_custom = st.text_area("أو اكتب رأيك الخاص:")
+    u_custom = st.text_area("اكتب رأيك هنا:")
     if st.form_submit_button("عرض التعليق للتأكيد ✨"):
-        final_msg = u_custom if u_custom.strip() != "" else (selected if selected != options[0] else "")
-        if u_name and final_msg:
-            confirm_dialog(u_name, final_msg)
+        if u_name and u_custom:
+            confirm_dialog(u_name, u_custom)
         else:
-            st.warning("⚠️ نرجو كتابة الاسم والتعليق")
-
-# 10. لوحة التحكم (السايد بار)
-with st.sidebar.expander("🔐 إدارة المحتوى"):
-    passw = st.text_input("كلمة السر:", type="password")
-    if passw == "1234":
-        new_v = st.text_input("رابط يوتيوب جديد:")
-        if st.button("إضافة فيديو"):
-            st.session_state.my_videos.append(new_v)
-            st.rerun()
+            st.warning("⚠️ نرجو كتابة الاسم وال
