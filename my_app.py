@@ -1,65 +1,29 @@
 import streamlit as st
 
-# إعدادات الصفحة الملكية
+# 1. إعدادات الصفحة الملكية والخطوط
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# --- تنسيقات ثابتة (اللمسة اللي عجبتك) ---
+# 2. عنوان الموقع الفخم (النسخة الأصلية)
+st.markdown("<h1 style='text-align: center; color: #FFD700; font-size: 50px;'>⚡ Hussien Oda Electric ⚡</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: white; font-size: 26px;'>الاحترافية والدقة في عالم الخدمات الكهربائية</p>", unsafe_allow_html=True)
+
+# 3. رسالة إيقاف التعليقات (بتصميم بارز)
+st.markdown("---")
+st.warning("⚠️ تم إيقاف استقبال التعليقات عبر الموقع مؤقتاً.")
 st.markdown("""
-<style>
-    .main { background-color: #0e1117; }
-    .stMarkdown { font-family: 'Arial'; }
-</style>
+    <div style="text-align: center; padding: 20px; border: 2px solid #FFD700; border-radius: 10px; background-color: rgba(255, 215, 0, 0.1);">
+        <h3 style="color: white;">للتعليق، إضافة إعجاب، أو تقديم الشكر</h3>
+        <p style="font-size: 22px; color: #FFD700;">يرجى زيارة صفحاتنا الرسمية على السوشيال ميديا</p>
+        <p style="font-size: 24px;"> 
+            <a href="https://www.facebook.com" style="color: #1877F2; text-decoration: none;">Facebook</a> | 
+            <a href="https://wa.me/yournumber" style="color: #25D366; text-decoration: none;">WhatsApp</a>
+        </p>
+    </div>
 """, unsafe_allow_html=True)
-
-# --- عنوان الموقع ---
-st.markdown("<h1 style='text-align: center; color: #FFD700;'>⚡ Hussien Oda Electric ⚡</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: white; font-size: 24px;'>أهلاً بكم في عالم الاحتراف والتميز في الخدمات الكهربائية</p>", unsafe_allow_html=True)
-
-# --- رسالة إيقاف التعليقات ---
-st.markdown("---")
-st.error("⚠️ تم إيقاف التعليقات مؤقتاً.")
-st.markdown("<h4 style='text-align: center; color: white;'>للتعليق أو إضافة الإعجاب والشكاوي، رجاءً الذهاب إلى صفحاتنا على السوشيال ميديا.</h4>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'><a href='#' style='color: #FFD700; text-decoration: none; font-size: 20px;'>فيسبوك</a> | <a href='#' style='color: #FFD700; text-decoration: none; font-size: 20px;'>واتساب</a></p>", unsafe_allow_html=True)
 st.markdown("---")
 
-# --- قائمة التعليقات الـ 30 (متنوعة) ---
-st.markdown("<h2 style='color: #FFD700; text-align: center;'>آراء عملائنا الكرام</h2>", unsafe_allow_html=True)
+# 4. قائمة الـ 30 تعليق (بتصميم البرواز الذهبي والخطوط الكبيرة)
+st.markdown("<h2 style='color: #FFD700; text-align: center;'>آراء عملائنا الكرام ✨</h2>", unsafe_allow_html=True)
 
 comments = [
-    ("حسين عوده", "شغل ممتاز وتسليم في الموعد، برافو!"),
-    ("أحمد علي", "أفضل فني كهرباء تعاملت معه في الجيزة."),
-    ("محمد إبراهيم", "دقة في المواعيد واحترافية عالية جداً."),
-    ("ياسين محمود", "شغل نظيف وسعر مناسب، شكراً هندسة حسين."),
-    ("محمود حسن", "أنصح الجميع بالتعامل مع المهندس حسين."),
-    ("كريم فؤاد", "حل مشكلة الكهرباء عندي في دقائق، فنان!"),
-    ("هاني شاكر", "التعامل راقي جداً والخدمة فوق الممتازة."),
-    ("سعيد عبد الله", "الخامات المستخدمة ممتازة والتركيب متقن."),
-    ("خالد يوسف", "مهندس شاطر ومحترم جداً."),
-    ("عصام حمدي", "تأسيس الشقة كان مثالي وبدون أي أخطاء."),
-    ("مصطفى رجب", "سرعة في الاستجابة واحترافية في التنفيذ."),
-    ("إيهاب جلال", "بجد تسلم إيدك يا هندسة، شغل يشرف."),
-    ("وائل ممدوح", "دائماً مبدع ومتميز في شغلك يا حسين."),
-    ("تامر حسني", "الكهرباء في المحل بقت زي الفل بفضلك."),
-    ("مجدي كامل", "شغل فني على أعلى مستوى، بالتوفيق."),
-    ("سمير غانم", "شكراً على الأمانة في العمل والأسعار الجيدة."),
-    ("عادل إمام", "الخبرة واضحة جداً في كل تفصيلة."),
-    ("رامي صبري", "تجربة ممتازة وسأكرر التعامل أكيد."),
-    ("هشام جمال", "المهندس حسين قمة في الأدب والشطارة."),
-    ("شريف منير", "أفضل حلول كهربائية ذكية شفتها."),
-    ("يحيى الفخراني", "عمل متقن وروح طيبة، بارك الله فيك."),
-    ("نور الشريف", "التزام تام بالمواصفات والجدول الزمني."),
-    ("عزت العلايلي", "شخص يعتمد عليه في المهمات الصعبة."),
-    ("أشرف عبد الباقي", "تنظيم الأسلاك وتوزيع الأحمال كان مبهراً."),
-    ("صلاح عبد الله", "دقة متناهية في التشطيبات النهائية."),
-    ("بيومي فؤاد", "يا هندسة أنت عالمي، تسلم إيدك."),
-    ("أحمد فهمي", "خدمة سريعة وموثوقة جداً."),
-    ("عمرو دياب", "التنسيق والجمال في الإضاءة غير طبيعي."),
-    ("حماقي", "شكراً على المجهود الجبار في الفيلا."),
-    ("بهاء سلطان", "موقعك جميل وشغلك أجمل يا بطل.")
-]
-
-for name, text in comments:
-    st.markdown(f"""
-    <div style="border: 5px solid #FFD700; padding: 15px; border-radius: 15px; margin-bottom: 20px; background-color: rgba(255, 215, 0, 0.05); text-align: right;">
-        <p style="font-size: 32px; color: #FFD700; font-weight: bold; margin-bottom: 5px; direction: rtl;">{name}</p>
-        <p style="font-size: 26px; color: white; direction: rtl;">{text
+    ("حسين عوده", "مهندس
