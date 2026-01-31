@@ -4,12 +4,12 @@ import time
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# 2. كود تنبيه ذكي لعملاء الماسنجر
+# 2. رسالة إرشادية راقية لعملاء الماسنجر
 st.components.v1.html("""
 <script>
     var isFB = /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
     if (isFB) {
-        alert("💡 يا فنان، عشان أزرار الاتصال والواتساب تشتغل معاك، دوس على الـ 3 نقط اللي فوق واختار 'فتح في المتصفح' (Open in Browser)");
+        alert("عميلنا العزيز، لضمان سهولة التواصل معنا عبر أزرار الاتصال والواتساب، يرجى الضغط على الثلاث نقاط في أعلى الشاشة واختيار 'الفتح في المتصفح' (Open in Browser).");
     }
 </script>
 """, height=0)
@@ -22,7 +22,7 @@ if 'my_videos' not in st.session_state:
 if 'my_images' not in st.session_state:
     st.session_state.my_images = ["https://via.placeholder.com/600x400"]
 
-# 4. نافذة التأكيد (المودال الذهبي المعتمد)
+# 4. نافذة التأكيد (المودال الذهبي الفخم)
 @st.dialog("مراجعة رأيك قبل النشر ⚡")
 def confirm_dialog(name, text):
     st.markdown(f"""
@@ -32,24 +32,27 @@ def confirm_dialog(name, text):
         </div>
     """, unsafe_allow_html=True)
     st.write("---")
-    if st.button("اعتماد ونشر على الموقع ✅", use_container_width=True, type="primary"):
+    if st.button("تأكيد ونشر التعليق ✅", use_container_width=True, type="primary"):
         st.session_state.reviews.insert(0, {"name": name, "text": text})
-        st.success("تم النشر بنجاح!")
+        st.success("تم نشر رأيك بنجاح!")
         time.sleep(1)
         st.rerun()
 
-# 5. التنسيق الماسي الفخم
+# 5. التنسيق الماسي الأصلي (استعادة الأبعاد الفخمة)
 st.markdown("""
 <style>
     .stApp { background-color: #0b0d11; }
     h1, h2 { color: #d4af37 !important; text-align: center; font-weight: bold; }
+    
+    /* تصميم صندوق التعليق المعتمد */
     .review-box { 
         background: #161a21; padding: 35px; border-radius: 20px; 
         border-right: 15px solid #d4af37; margin-bottom: 25px; 
         box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     }
-    .client-name { color: #d4af37 !important; font-size: 32px !important; font-weight: bold; }
-    .client-text { color: #ffffff !important; font-size: 26px !important; margin-top: 15px; }
+    .client-name { color: #d4af37 !important; font-size: 32px !important; font-weight: bold; display: block; }
+    .client-text { color: #ffffff !important; font-size: 26px !important; margin-top: 15px; display: block; }
+    
     .diamond-btn {
         display: block; width: 100%; height: 85px; line-height: 85px; 
         text-align: center; font-size: 28px; font-weight: bold; 
@@ -58,6 +61,7 @@ st.markdown("""
     }
     .red-btn { background: linear-gradient(45deg, #ff4b4b, #b22222); }
     .green-btn { background: linear-gradient(45deg, #25d366, #128c7e); }
+    
     .social-btn {
         display: inline-block; padding: 18px 35px; margin: 8px;
         border-radius: 15px; text-decoration: none !important;
@@ -69,7 +73,7 @@ st.markdown("""
 
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 6. أزرار الاتصال
+# 6. أزرار التواصل المباشر
 col1, col2 = st.columns(2)
 with col1:
     st.markdown('<a href="tel:01123393030" class="diamond-btn red-btn">📞 اتصل بنا الآن</a>', unsafe_allow_html=True)
@@ -78,7 +82,7 @@ with col2:
 
 st.write("---")
 
-# 7. السوشيال ميديا
+# 7. منصات التواصل الاجتماعي
 st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
 st.markdown(f"""
     <div style="text-align: center;">
@@ -100,7 +104,7 @@ with t2:
 
 st.write("---")
 
-# 9. عرض التعليقات
+# 9. عرض التعليقات (بالتنسيق الضخم الأصلي)
 st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
 for r in st.session_state.reviews:
     st.markdown(f"""
@@ -112,15 +116,15 @@ for r in st.session_state.reviews:
 
 st.write("---")
 
-# 10. فورم التعليق (تم إصلاح قفلة السطر 130)
-with st.form("diamond_main_form", clear_on_submit=True):
-    u_name = st.text_input("اسمك الكريم:")
-    u_custom = st.text_area("اكتب رأيك هنا:")
+# 10. نموذج إضافة تعليق
+with st.form("diamond_final_v10", clear_on_submit=True):
+    u_name = st.text_input("الاسم الكريم:")
+    u_custom = st.text_area("رأيك في جودة العمل:")
     if st.form_submit_button("عرض التعليق للتأكيد ✨"):
         if u_name and u_custom:
             confirm_dialog(u_name, u_custom)
         else:
-            st.warning("⚠️ نرجو كتابة الاسم والتعليق قبل الإرسال")
+            st.warning("⚠️ يرجى كتابة الاسم والتعليق أولاً")
 
 # 11. لوحة التحكم
 with st.sidebar.expander("🔐 إدارة المحتوى"):
