@@ -1,53 +1,65 @@
 import streamlit as st
-from streamlit_gsheets import GSheetsConnection
-import pandas as pd
 
-# إعدادات الصفحة
-st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="centered")
+# إعدادات الصفحة الملكية
+st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# الربط بجدول البيانات
-conn = st.connection("gsheets", type=GSheetsConnection)
+# --- تنسيقات ثابتة (اللمسة اللي عجبتك) ---
+st.markdown("""
+<style>
+    .main { background-color: #0e1117; }
+    .stMarkdown { font-family: 'Arial'; }
+</style>
+""", unsafe_allow_html=True)
 
+# --- عنوان الموقع ---
 st.markdown("<h1 style='text-align: center; color: #FFD700;'>⚡ Hussien Oda Electric ⚡</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: white; font-size: 24px;'>أهلاً بكم في عالم الاحتراف والتميز في الخدمات الكهربائية</p>", unsafe_allow_html=True)
 
-# قسم إضافة تعليق
-with st.form(key="comment_form", clear_on_submit=True):
-    user_name = st.text_input("الأسم الكريم:")
-    user_text = st.text_area("رأيك في الخدمة:")
-    submit_button = st.form_submit_button("تأكيد ونشر التعليق الآن ✅")
-
-if submit_button:
-    if user_name and user_text:
-        try:
-            # قراءة البيانات بدون تحديد اسم الورقة (سيأخذ الأولى تلقائياً)
-            df = conn.read(ttl=0)
-            new_data = pd.DataFrame([{"name": user_name, "text": user_text}])
-            updated_df = pd.concat([df, new_data], ignore_index=True)
-            # التحديث المباشر
-            conn.update(data=updated_df)
-            st.success("تم النشر بنجاح!")
-            st.balloons()
-        except Exception as e:
-            st.error(f"حدث خطأ في الاتصال. يرجى التأكد من الـ Secrets.")
-    else:
-        st.warning("املأ الخانات أولاً.")
-
-# عرض التعليقات بالتنسيق الذهبي
+# --- رسالة إيقاف التعليقات ---
 st.markdown("---")
-try:
-    data = conn.read(ttl=0)
-    for index, row in data.iterrows():
-        # استخدام try لتجنب خطأ أسماء الأعمدة
-        try:
-            n = row.iloc[0] # العمود الأول (الاسم)
-            t = row.iloc[1] # العمود الثاني (التعليق)
-            st.markdown(f"""
-            <div style="border: 8px solid #FFD700; padding: 20px; border-radius: 20px; margin-bottom: 25px; text-align: right;">
-                <p style="font-size: 32px; color: #FFD700; font-weight: bold; direction: rtl;">{n}</p>
-                <p style="font-size: 26px; color: white; direction: rtl;">{t}</p>
-            </div>
-            """, unsafe_allow_html=True)
-        except:
-            continue
-except:
-    st.info("التعليقات ستظهر هنا فور الربط.")
+st.error("⚠️ تم إيقاف التعليقات مؤقتاً.")
+st.markdown("<h4 style='text-align: center; color: white;'>للتعليق أو إضافة الإعجاب والشكاوي، رجاءً الذهاب إلى صفحاتنا على السوشيال ميديا.</h4>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'><a href='#' style='color: #FFD700; text-decoration: none; font-size: 20px;'>فيسبوك</a> | <a href='#' style='color: #FFD700; text-decoration: none; font-size: 20px;'>واتساب</a></p>", unsafe_allow_html=True)
+st.markdown("---")
+
+# --- قائمة التعليقات الـ 30 (متنوعة) ---
+st.markdown("<h2 style='color: #FFD700; text-align: center;'>آراء عملائنا الكرام</h2>", unsafe_allow_html=True)
+
+comments = [
+    ("حسين عوده", "شغل ممتاز وتسليم في الموعد، برافو!"),
+    ("أحمد علي", "أفضل فني كهرباء تعاملت معه في الجيزة."),
+    ("محمد إبراهيم", "دقة في المواعيد واحترافية عالية جداً."),
+    ("ياسين محمود", "شغل نظيف وسعر مناسب، شكراً هندسة حسين."),
+    ("محمود حسن", "أنصح الجميع بالتعامل مع المهندس حسين."),
+    ("كريم فؤاد", "حل مشكلة الكهرباء عندي في دقائق، فنان!"),
+    ("هاني شاكر", "التعامل راقي جداً والخدمة فوق الممتازة."),
+    ("سعيد عبد الله", "الخامات المستخدمة ممتازة والتركيب متقن."),
+    ("خالد يوسف", "مهندس شاطر ومحترم جداً."),
+    ("عصام حمدي", "تأسيس الشقة كان مثالي وبدون أي أخطاء."),
+    ("مصطفى رجب", "سرعة في الاستجابة واحترافية في التنفيذ."),
+    ("إيهاب جلال", "بجد تسلم إيدك يا هندسة، شغل يشرف."),
+    ("وائل ممدوح", "دائماً مبدع ومتميز في شغلك يا حسين."),
+    ("تامر حسني", "الكهرباء في المحل بقت زي الفل بفضلك."),
+    ("مجدي كامل", "شغل فني على أعلى مستوى، بالتوفيق."),
+    ("سمير غانم", "شكراً على الأمانة في العمل والأسعار الجيدة."),
+    ("عادل إمام", "الخبرة واضحة جداً في كل تفصيلة."),
+    ("رامي صبري", "تجربة ممتازة وسأكرر التعامل أكيد."),
+    ("هشام جمال", "المهندس حسين قمة في الأدب والشطارة."),
+    ("شريف منير", "أفضل حلول كهربائية ذكية شفتها."),
+    ("يحيى الفخراني", "عمل متقن وروح طيبة، بارك الله فيك."),
+    ("نور الشريف", "التزام تام بالمواصفات والجدول الزمني."),
+    ("عزت العلايلي", "شخص يعتمد عليه في المهمات الصعبة."),
+    ("أشرف عبد الباقي", "تنظيم الأسلاك وتوزيع الأحمال كان مبهراً."),
+    ("صلاح عبد الله", "دقة متناهية في التشطيبات النهائية."),
+    ("بيومي فؤاد", "يا هندسة أنت عالمي، تسلم إيدك."),
+    ("أحمد فهمي", "خدمة سريعة وموثوقة جداً."),
+    ("عمرو دياب", "التنسيق والجمال في الإضاءة غير طبيعي."),
+    ("حماقي", "شكراً على المجهود الجبار في الفيلا."),
+    ("بهاء سلطان", "موقعك جميل وشغلك أجمل يا بطل.")
+]
+
+for name, text in comments:
+    st.markdown(f"""
+    <div style="border: 5px solid #FFD700; padding: 15px; border-radius: 15px; margin-bottom: 20px; background-color: rgba(255, 215, 0, 0.05); text-align: right;">
+        <p style="font-size: 32px; color: #FFD700; font-weight: bold; margin-bottom: 5px; direction: rtl;">{name}</p>
+        <p style="font-size: 26px; color: white; direction: rtl;">{text
