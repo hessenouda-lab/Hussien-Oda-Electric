@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import uuid
 
-# 1. إعدادات الصفحة الأساسية
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
 # 2. حفظ بيانات الجلسة
@@ -11,17 +11,16 @@ if 'user_id' not in st.session_state:
 
 if 'reviews' not in st.session_state:
     st.session_state.reviews = [
-        {"id": "1", "user_id": "admin", "name": "محمد صلاح", "text": "شغل ممتاز وتسليم في الميعاد."},
-        {"id": "2", "user_id": "admin", "name": "أحمد علي", "text": "رجل محترم وأمين جداً في الخامات."}
+        {"id": "1", "name": "محمد صلاح", "text": "شغل ممتاز وتسليم في الميعاد."},
+        {"id": "2", "name": "أحمد علي", "text": "رجل محترم وأمين جداً."}
     ]
 
-# متغيرات للتحكم في حالة المراجعة
 if 'preview_mode' not in st.session_state:
     st.session_state.preview_mode = False
 if 'temp_review' not in st.session_state:
     st.session_state.temp_review = {}
 
-# 3. تصميم الواجهة
+# 3. تصميم الواجهة (CSS)
 st.markdown("""
     <style>
     .main { background-color: #0e1117; }
@@ -30,29 +29,26 @@ st.markdown("""
     h1, h2, h3 { color: #ffde59 !important; text-align: center; }
     p { color: white !important; font-size: 20px !important; }
     .review-box { background-color: #262730; padding: 15px; border-radius: 10px; border-right: 5px solid #ffde59; margin-bottom: 10px; color: white; }
-    .preview-box { background-color: #1c1f26; border: 2px dashed #ffde59; padding: 20px; border-radius: 15px; margin-top: 10px; }
+    .preview-box { background-color: #1c1f26; border: 2px dashed #ffde59; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
     
-    /* ستايل الأزرار */
     div.stButton > button {
         font-weight: bold !important;
         width: 100%;
-        height: 55px;
-        font-size: 18px !important;
+        height: 60px;
+        font-size: 20px !important;
         border-radius: 12px;
     }
-    .confirm-btn button { background-color: #25d366 !important; color: white !important; }
-    .edit-btn button { background-color: #ffde59 !important; color: black !important; }
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<h1>⚡ حسين عوده لخدمات الكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 4. روابط الاتصال
-col_call, col_wa = st.columns(2)
-with col_call:
-    st.markdown('<a href="tel:01123393030" style="text-decoration:none;"><div style="background-color:#ff4b4b; color:white; padding:15px; border-radius:50px; text-align:center; font-size:22px; font-weight:bold;">📞 اتصل الآن</div></a>', unsafe_allow_html=True)
-with col_wa:
-    st.markdown('<a href="https://api.whatsapp.com/send?phone=201123393030" style="text-decoration:none;"><div style="background-color:#25d366; color:white; padding:15px; border-radius:50px; text-align:center; font-size:22px; font-weight:bold;">💬 واتساب</div></a>', unsafe_allow_html=True)
+# 4. روابط الاتصال والواتساب (روابط مباشرة)
+c_call, c_wa = st.columns(2)
+with c_call:
+    st.markdown('<a href="tel:01123393030" style="text-decoration:none;"><div style="background-color:#ff4b4b; color:white; padding:20px; border-radius:15px; text-align:center; font-size:22px; font-weight:bold;">📞 اتصل الآن</div></a>', unsafe_allow_html=True)
+with c_wa:
+    st.markdown('<a href="https://wa.me/201123393030" style="text-decoration:none;"><div style="background-color:#25d366; color:white; padding:20px; border-radius:15px; text-align:center; font-size:22px; font-weight:bold;">💬 واتساب</div></a>', unsafe_allow_html=True)
 
 st.write("---")
 
@@ -68,4 +64,13 @@ st.write("---")
 # 6. الفيديوهات
 st.markdown("<h2>🎬 كواليس العمل</h2>", unsafe_allow_html=True)
 v1, v2 = st.columns(2)
-with v1
+with v1:
+    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+with v2:
+    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
+st.write("---")
+
+# 7. عرض التعليقات
+st.markdown("<h2>💬 آراء الناس في شغلنا</h2>", unsafe_allow_html=True)
+for r in st.session_state.
