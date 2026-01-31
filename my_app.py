@@ -151,4 +151,5 @@ with st.form("diamond_feedback_final_safe", clear_on_submit=True):
         if u_name and final_text:
             confirm_dialog(u_name, final_text)
         else:
-            st.warning("⚠️ يرجى كتابة الاسم وتحديد الرأي المطلوب")s
+            st.warning("⚠️ يرجى كتابة الاسم وتحديد الرأي المطلوب")
+
