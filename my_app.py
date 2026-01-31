@@ -1,42 +1,19 @@
 import streamlit as st
-import time
 
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# 2. رسالة إرشادية راقية لعملاء الماسنجر
+# 2. رسالة إرشادية لعملاء الماسنجر (للمحافظة على الأداء)
 st.components.v1.html("""
 <script>
     var isFB = /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
     if (isFB) {
-        alert("عميلنا العزيز، لضمان سهولة التواصل معنا، يرجى الضغط على الثلاث نقاط في أعلى الشاشة واختيار 'الفتح في المتصفح' (Open in Browser).");
+        alert("عميلنا العزيز، لضمان أفضل تجربة للموقع، يرجى الضغط على الثلاث نقاط بالأعلى واختيار 'الفتح في المتصفح'.");
     }
 </script>
 """, height=0)
 
-# 3. تهيئة البيانات
-if 'reviews' not in st.session_state:
-    st.session_state.reviews = [{"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة."}]
-
-# 4. نافذة التأكيد (المودال الذهبي المعتمد)
-@st.dialog("مراجعة رأيك قبل النشر ⚡")
-def confirm_dialog(name, text):
-    st.markdown(f"""
-        <div style="background-color: #1a1e24; padding: 25px; border-radius: 15px; border: 3px solid #d4af37; text-align: right; color: white;">
-            <p style="color: #d4af37; font-weight: bold; font-size: 32px; margin-bottom: 10px;">👤 الاسم: {name}</p>
-            <div style="border-top: 2px solid #d4af37; padding-top: 15px;">
-                <p style="font-size: 26px; color: #ffffff; line-height: 1.6;">💬 الرأي: "{text}"</p>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-    st.write("---")
-    if st.button("تأكيد ونشر التعليق الآن ✅", use_container_width=True, type="primary"):
-        st.session_state.reviews.insert(0, {"name": name, "text": text})
-        st.success("تم النشر بنجاح! شكراً لثقتكم.")
-        time.sleep(1)
-        st.rerun()
-
-# 5. التنسيق الماسي الفخم (الاسم 32px والتعليق 26px)
+# 3. التنسيق الماسي الفخم (الاسم 32px والتعليق 26px)
 st.markdown("""
 <style>
     .stApp { background-color: #0b0d11; }
@@ -46,6 +23,7 @@ st.markdown("""
         background: #161a21; padding: 35px; border-radius: 20px; 
         border-right: 15px solid #d4af37; margin-bottom: 25px; 
         box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        text-align: right;
     }
     .client-name { color: #d4af37 !important; font-size: 32px !important; font-weight: bold; display: block; }
     .client-text { color: #ffffff !important; font-size: 26px !important; margin-top: 15px; display: block; line-height: 1.4; }
@@ -64,13 +42,35 @@ st.markdown("""
         border-radius: 15px; text-decoration: none !important;
         color: white !important; font-size: 22px; font-weight: bold;
     }
-    .fb-bg { background-color: #1877F2; } .tt-bg { background-color: #000000; border: 2px solid #fe2c55; } .yt-bg { background-color: #FF0000; }
+    .fb-bg { background-color: #1877F2; } 
+    .tt-bg { background-color: #000000; border: 2px solid #fe2c55; } 
+    .yt-bg { background-color: #FF0000; }
+    
+    .announcement-box {
+        background-color: rgba(212, 175, 55, 0.1);
+        border: 2px dashed #d4af37;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 6. أزرار التواصل المباشر
+# 4. رسالة التوجيه للسوشيال ميديا (بديلة لنموذج التعليقات)
+st.markdown("""
+<div class="announcement-box">
+    <h3 style="color: #d4af37; margin-bottom: 10px;">عائلتنا الكبيرة.. رأيكم يهمنا! ✨</h3>
+    <p style="color: white; font-size: 24px;">
+        لإضافة تعليق جديد أو تسجيل إعجابكم بأعمالنا، يسعدنا تواصلكم عبر منصاتنا الرسمية. <br>
+        شكراً على ثقتكم الغالية ومشاركتكم مسيرة نجاحنا.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# 5. أزرار التواصل المباشر (التصميم الأصلي)
 col1, col2 = st.columns(2)
 with col1:
     st.markdown('<a href="tel:01123393030" class="diamond-btn red-btn">📞 اتصل بنا الآن</a>', unsafe_allow_html=True)
@@ -79,52 +79,8 @@ with col2:
 
 st.write("---")
 
-# 7. منصات التواصل الاجتماعي (التي سقطت سهواً وعادت الآن)
-st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
+# 6. منصات التواصل الاجتماعي (الروابط الكاملة)
+st.markdown("<h2>🔗 تابعونا لمشاهدة أحدث الفيديوهات</h2>", unsafe_allow_html=True)
 st.markdown(f"""
     <div style="text-align: center;">
-        <a href="https://www.facebook.com/profile.php?id=61573193272647" target="_blank" class="social-btn fb-bg">🔵 فيسبوك</a>
-        <a href="https://www.tiktok.com/@hessenouda1" target="_blank" class="social-btn tt-bg">⚫ تيك توك</a>
-        <a href="https://www.youtube.com/channel/UCKF5VXyc5Uma_X4X_S5ld8w" target="_blank" class="social-btn yt-bg">🔴 يوتيوب</a>
-    </div>
-""", unsafe_allow_html=True)
-
-st.write("---")
-
-# 8. عرض التعليقات (بالتنسيق الضخم المعتمد)
-st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
-for r in st.session_state.reviews:
-    st.markdown(f"""
-        <div class="review-box">
-            <div class="client-name">👤 {r.get('name')}</div>
-            <div class="client-text">{r.get('text')}</div>
-        </div>
-    """, unsafe_allow_html=True)
-
-st.write("---")
-
-# 9. نموذج التعليق المطور مع الاختصارات السريعة
-st.markdown("<h2 style='text-align: right;'>✍️ أضف رأيك الخاص</h2>", unsafe_allow_html=True)
-
-with st.form("diamond_feedback_final_safe", clear_on_submit=True):
-    u_name = st.text_input("الاسم الكريم:")
-    
-    st.markdown("<p style='color: #d4af37; text-align: right; font-weight: bold;'>اختر رأياً جاهزاً (اختياري):</p>", unsafe_allow_html=True)
-    quick_options = [
-        "لم يتم الاختيار...",
-        "شغل ممتاز وتسليم في الموعد المحدد. شكراً جزيلاً.",
-        "دقة في المواعيد واحترافية عالية في التنفيذ.",
-        "أفضل فني كهرباء تعاملت معه، ذوق وأدب وشغل نظيف.",
-        "خامات ممتازة وتأسيس هندسي على أعلى مستوى."
-    ]
-    u_quick = st.selectbox("اضغط هنا لاختيار جملة جاهزة:", quick_options)
-    u_custom = st.text_area("أو اكتب رأيك الخاص بالتفصيل:")
-    
-    submit = st.form_submit_button("عرض التعليق للتأكيد ✨")
-    
-    if submit:
-        final_text = u_custom.strip() if u_custom.strip() else (u_quick if u_quick != "لم يتم الاختيار..." else "")
-        if u_name and final_text:
-            confirm_dialog(u_name, final_text)
-        else:
-            st.warning("⚠️ يرجى كتابة الاسم وتحديد الرأي المطلوب")
+        <a href="
