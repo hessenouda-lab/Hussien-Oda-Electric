@@ -4,7 +4,7 @@ import time
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# 2. تهيئة البيانات (عشان التعليقات تظهر)
+# 2. تهيئة البيانات
 if 'reviews' not in st.session_state:
     st.session_state.reviews = [
         {"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة."},
@@ -15,15 +15,25 @@ if 'my_videos' not in st.session_state:
 if 'my_images' not in st.session_state:
     st.session_state.my_images = ["https://via.placeholder.com/600x400"]
 
-# 3. نافذة التأكيد (المودال الماسي)
-@st.dialog("مراجعة بيانات التعليق ⚡")
+# 3. نافذة التأكيد (تم تصحيح الألوان لإظهار النص)
+@st.dialog("مراجعة رأيك قبل النشر ⚡")
 def confirm_dialog(name, text):
-    st.markdown(f'<div style="text-align:right; color:white;"><b>المرسل:</b> {name}<br><b>الرأي:</b> {text}</div>', unsafe_allow_html=True)
-    if st.button("اعتماد ونشر ✅", use_container_width=True, type="primary"):
+    st.markdown(f"""
+        <div style="background-color: #1a1e24; padding: 20px; border-radius: 10px; border: 2px solid #d4af37; text-align: right;">
+            <p style="color: #d4af37; font-size: 20px; font-weight: bold; margin-bottom: 10px;">👤 اسم العميل:</p>
+            <p style="color: #ffffff; font-size: 18px; background: #0b0d11; padding: 10px; border-radius: 5px;">{name}</p>
+            <p style="color: #d4af37; font-size: 20px; font-weight: bold; margin-top: 20px; margin-bottom: 10px;">💬 نص التعليق:</p>
+            <p style="color: #ffffff; font-size: 18px; background: #0b0d11; padding: 10px; border-radius: 5px;">{text}</p>
+        </div>
+    """, unsafe_allow_html=True)
+    st.write("---")
+    if st.button("تأكيد ونشر على الموقع الآن ✅", use_container_width=True, type="primary"):
         st.session_state.reviews.insert(0, {"name": name, "text": text})
+        st.success("تم النشر بنجاح! جاري التحديث...")
+        time.sleep(1)
         st.rerun()
 
-# 4. التنسيق الفخم (رجوع الألوان والخطوط الكبيرة)
+# 4. التنسيق الفخم (CSS الماسي)
 st.markdown("""
     <style>
     .stApp { background-color: #0b0d11; }
@@ -56,7 +66,7 @@ with col2:
 
 st.write("---")
 
-# 6. السوشيال ميديا بروابطك الحقيقية
+# 6. السوشيال ميديا
 st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
 st.markdown(f"""
     <div style="text-align: center;">
@@ -80,7 +90,7 @@ with t2:
 
 st.write("---")
 
-# 8. التعليقات (رجعت تظهر تانى)
+# 8. عرض التعليقات
 st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
 for r in st.session_state.reviews:
     st.markdown(f"""
@@ -92,22 +102,24 @@ for r in st.session_state.reviews:
 
 st.write("---")
 
-# 9. فورم الإضافة
-with st.form("diamond_verified_form", clear_on_submit=True):
+# 9. فورم الإضافة (المعدلة لإرسال البيانات للنافذة)
+with st.form("diamond_final_form", clear_on_submit=True):
     u_name = st.text_input("اسمك الكريم:")
     options = ["اختر رأياً جاهزاً...", "شغل احترافي وتسليم في الموعد ⚡", "أمانة ودقة في المواعيد ✅", "تأسيس كهرباء ممتاز ⭐"]
     selected = st.selectbox("رأيك في الخدمة:", options)
-    u_custom = st.text_area("أو اكتب رأيك الخاص:")
-    if st.form_submit_button("إرسال للمراجعة ✨"):
-        final = u_custom if u_custom else (selected if selected != options[0] else "")
-        if u_name and final:
-            confirm_dialog(u_name, final)
+    u_custom = st.text_area("أو اكتب رأيك الخاص هنا:")
+    
+    submit = st.form_submit_button("عرض التعليق للتأكيد ✨")
+    
+    if submit:
+        final_msg = u_custom if u_custom.strip() != "" else (selected if selected != options[0] else "")
+        if u_name and final_msg:
+            confirm_dialog(u_name, final_msg)
         else:
-            st.warning("⚠️ نرجو كتابة الاسم والتعليق")
+            st.warning("⚠️ نرجو كتابة الاسم واختيار أو كتابة التعليق أولاً")
 
-# 10. لوحة التحكم (في السايد بار تحت خالص)
+# 10. لوحة التحكم (السايد بار)
 with st.sidebar.expander("🔐 إدارة المحتوى"):
     passw = st.text_input("كلمة السر:", type="password")
     if passw == "1234":
-        new_v = st.text_input("رابط يوتيوب:")
-        if st.button("إضافة فيديو"): st.session_state.my_videos.append(new_v)
+        new_v = st.
