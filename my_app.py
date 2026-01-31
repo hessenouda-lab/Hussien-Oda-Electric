@@ -11,10 +11,13 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/1z9Hb0qCyWzAykrZlPOSjb4Pup4J
 
 # 2. وظائف قاعدة البيانات
 def load_data():
-    conn = connect(":memory:")
-    query = f'SELECT * FROM "{SHEET_URL}"'
-    df = pd.read_sql(query, conn)
-    return df
+    try:
+        conn = connect(":memory:")
+        query = f'SELECT * FROM "{SHEET_URL}"'
+        df = pd.read_sql(query, conn)
+        return df
+    except:
+        return pd.DataFrame(columns=['name', 'text'])
 
 def add_review(name, text):
     conn = connect(":memory:")
@@ -23,13 +26,21 @@ def add_review(name, text):
     cursor.execute(insert_query, (name, text))
     conn.commit()
 
-# 3. التنسيق الماسي الفخم (32px و 26px والبرواز الذهبي)
+# 3. استعادة رسالة التنبيه لعملاء الماسنجر (المتفق عليها)
+st.components.v1.html("""
+<script>
+    var isFB = /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
+    if (isFB) {
+        alert("عميلنا العزيز، لضمان عمل أزرار الاتصال بشكل صحيح، يرجى الضغط على الـ 3 نقط في الأعلى واختيار 'الفتح في المتصفح' (Open in Browser).");
+    }
+</script>
+""", height=0)
+
+# 4. التنسيق الماسي الفخم (المقاسات المعتمدة 32px و 26px)
 st.markdown("""
 <style>
     .stApp { background-color: #0b0d11; }
     h1, h2 { color: #d4af37 !important; text-align: center; font-weight: bold; }
-    
-    /* تنسيق صندوق التعليق */
     .review-box { 
         background: #161a21; padding: 35px; border-radius: 20px; 
         border-right: 15px solid #d4af37; margin-bottom: 25px; 
@@ -37,8 +48,6 @@ st.markdown("""
     }
     .client-name { color: #d4af37 !important; font-size: 32px !important; font-weight: bold; display: block; }
     .client-text { color: #ffffff !important; font-size: 26px !important; margin-top: 15px; display: block; line-height: 1.4; }
-    
-    /* تنسيق أزرار الاتصال الضخمة */
     .diamond-btn {
         display: block; width: 100%; height: 85px; line-height: 85px; 
         text-align: center; font-size: 28px; font-weight: bold; 
@@ -47,22 +56,18 @@ st.markdown("""
     }
     .red-btn { background: linear-gradient(45deg, #ff4b4b, #b22222); }
     .green-btn { background: linear-gradient(45deg, #25d366, #128c7e); }
-    
-    /* تنسيق أزرار السوشيال ميديا */
     .social-btn {
         display: inline-block; padding: 18px 35px; margin: 8px;
         border-radius: 15px; text-decoration: none !important;
         color: white !important; font-size: 22px; font-weight: bold;
     }
-    .fb-bg { background-color: #1877F2; } 
-    .tt-bg { background-color: #000000; border: 2px solid #fe2c55; } 
-    .yt-bg { background-color: #FF0000; }
+    .fb-bg { background-color: #1877F2; } .tt-bg { background-color: #000000; border: 2px solid #fe2c55; } .yt-bg { background-color: #FF0000; }
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 4. أزرار التواصل المباشر (عادت كما كانت)
+# 5. أزرار التواصل والسوشيال ميديا
 col1, col2 = st.columns(2)
 with col1:
     st.markdown('<a href="tel:01123393030" class="diamond-btn red-btn">📞 اتصل بنا الآن</a>', unsafe_allow_html=True)
@@ -70,8 +75,6 @@ with col2:
     st.markdown('<a href="https://wa.me/201123393030" target="_blank" class="diamond-btn green-btn">💬 راسلنا واتساب</a>', unsafe_allow_html=True)
 
 st.write("---")
-
-# 5. منصات التواصل الاجتماعي (عادت كما كانت)
 st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
 st.markdown(f"""
     <div style="text-align: center;">
@@ -83,15 +86,19 @@ st.markdown(f"""
 
 st.write("---")
 
-# 6. نموذج إضافة تعليق (يُحفظ في جوجل شيت)
-st.markdown("<h2 style='text-align: right;'>✍️ أضف رأيك الخاص</h2>", unsafe_allow_html=True)
-with st.form("main_feedback_form", clear_on_submit=True):
+# 6. استعادة نموذج التعليق بالاختيارات الجاهزة (المتفق عليه)
+st.markdown("<h2 style='text-align: right;'>✍️ شاركنا رأيك في الخدمة</h2>", unsafe_allow_html=True)
+with st.form("diamond_feedback_form", clear_on_submit=True):
     u_name = st.text_input("الاسم الكريم:")
-    u_custom = st.text_area("رأيك في جودة العمل:")
-    if st.form_submit_button("تأكيد ونشر التعليق ✅"):
-        if u_name and u_custom:
-            add_review(u_name, u_custom)
-            st.success("تم النشر بنجاح!")
+    quick_options = ["لم يتم الاختيار...", "شغل ممتاز وتسليم في الموعد.", "دقة واحترافية عالية.", "أفضل فني كهرباء في الجيزة.", "تأسيس هندسي محترم جداً.", "خامات ممتازة وأمان تام."]
+    u_quick = st.selectbox("اختر رأياً جاهزاً (اختياري):", quick_options)
+    u_custom = st.text_area("أو اكتب رأيك الخاص:")
+    
+    if st.form_submit_button("نشر التعليق الآن ✅"):
+        final_text = u_custom.strip() if u_custom.strip() else (u_quick if u_quick != "لم يتم الاختيار..." else "")
+        if u_name and final_text:
+            add_review(u_name, final_text)
+            st.success("تم النشر بنجاح! شكراً لثقتكم.")
             time.sleep(1)
             st.rerun()
         else:
@@ -99,16 +106,25 @@ with st.form("main_feedback_form", clear_on_submit=True):
 
 st.write("---")
 
-# 7. عرض التعليقات من جوجل شيت (بالتنسيق الفخم المعتمد)
+# 7. عرض التعليقات (الخمسة الأوائل + المحفوظة في الشيت)
 st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
+
+# تعليقات البداية (الخمسة اللي طلبتهم)
+initial_reviews = [
+    {"name": "م/ محمد إبراهيم", "text": "تسليم في الموعد ودقة متناهية في توزيع الأحمال. شكراً لك."},
+    {"name": "أستاذ عصام", "text": "أفضل تعامل جربته في الطالبية، احترافية وأمان."},
+    {"name": "الحاج محمود", "text": "شغل هندسي بجد، الله يبارك لك في رزقك يا حسين."},
+    {"name": "د/ مروة", "text": "شكراً جزيلاً على الأمانة في اختيار الخامات والدقة في التنفيذ."},
+    {"name": "أحمد سمير", "text": "تأسيس ممتاز للشقة بالكامل وبأحدث الطرق الهندسية."}
+]
+
+# عرض تعليقات الشيت أولاً (الأحدث) ثم المبدئية
 try:
     df = load_data()
-    for index, row in df.iloc[::-1].iterrows():
-        st.markdown(f"""
-            <div class="review-box">
-                <div class="client-name">👤 {row['name']}</div>
-                <div class="client-text">{row['text']}</div>
-            </div>
-        """, unsafe_allow_html=True)
+    for _, row in df.iloc[::-1].iterrows():
+        st.markdown(f'<div class="review-box"><div class="client-name">👤 {row["name"]}</div><div class="client-text">{row["text"]}</div></div>', unsafe_allow_html=True)
 except:
-    st.info("بانتظار أول تعليق ليتم عرضه هنا.. ✨")
+    pass
+
+for r in initial_reviews:
+    st.markdown(f'<div class="review-box"><div class="client-name">👤 {r["name"]}</div><div class="client-text">{r["text"]}</div></div>', unsafe_allow_html=True)
