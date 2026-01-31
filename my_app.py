@@ -1,43 +1,56 @@
 import streamlit as st
 import time
 
-# 1. إعدادات الصفحة الأساسية
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="Hussien Oda Electric", page_icon="⚡", layout="wide")
 
-# 2. حفظ التعليقات
+# 2. حفظ البيانات
 if 'reviews' not in st.session_state:
     st.session_state.reviews = [
         {"name": "أحمد علي", "text": "تأسيس كهرباء احترافي وخامات ممتازة."},
         {"name": "محمد صلاح", "text": "رجل محترف ومواعيده دقيقة جداً."}
     ]
 
-# 3. نافذة التأكيد المنبثقة
-@st.dialog("تأكيد نشر رأيك ⚡")
+# 3. نافذة التأكيد (المودال المؤكد)
+@st.dialog("مراجعة بيانات التعليق ⚡")
 def confirm_dialog(name, text):
-    st.markdown(f'<div style="text-align:right; color:white;"><b>المرسل:</b> {name}<br><b>الرأي:</b> {text}</div>', unsafe_allow_html=True)
-    if st.button("تأكيد ونشر ✅", use_container_width=True, type="primary"):
-        st.session_state.reviews.insert(0, {"name": name, "text": text})
-        st.rerun()
+    st.markdown(f"""
+        <div style="background-color: #121212; padding: 20px; border-radius: 10px; border: 2px solid #d4af37; text-align: right; color: white;">
+            <p style="color: #d4af37; font-weight: bold;">المرسل: {name}</p>
+            <p>الرأي: "{text}"</p>
+        </div>
+    """, unsafe_allow_html=True)
+    st.write("---")
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.button("اعتماد ونشر ✅", use_container_width=True, type="primary"):
+            st.session_state.reviews.insert(0, {"name": name, "text": text})
+            st.success("تم النشر!")
+            time.sleep(1)
+            st.rerun()
+    with c2:
+        if st.button("تعديل ✏️", use_container_width=True):
+            st.rerun()
 
-# 4. التنسيق الفخم (CSS)
+# 4. التنسيق الفخم الكامل (CSS)
 st.markdown("""
     <style>
     .stApp { background-color: #0b0d11; }
     h1, h2 { color: #d4af37 !important; text-align: center; font-weight: bold; }
-    .review-box { background: #161a21; padding: 25px; border-radius: 15px; border-right: 10px solid #d4af37; margin-bottom: 20px; }
-    .client-name { color: #d4af37; font-size: 26px; font-weight: bold; }
-    .client-text { color: #ffffff; font-size: 22px; margin-top: 10px; }
-    div.stButton > button { height: 75px !important; font-size: 24px !important; border-radius: 15px !important; font-weight: bold !important; }
+    .review-box { background: #161a21; padding: 30px; border-radius: 20px; border-right: 10px solid #d4af37; margin-bottom: 25px; }
+    .client-name { color: #d4af37; font-size: 28px; font-weight: bold; }
+    .client-text { color: #ffffff; font-size: 24px; margin-top: 15px; }
+    div.stButton > button { height: 80px !important; font-size: 24px !important; border-radius: 20px !important; font-weight: bold !important; }
     div[data-testid="stColumn"]:nth-child(1) button { background-color: #ff4b4b !important; color: white !important; }
     div[data-testid="stColumn"]:nth-child(2) button { background-color: #25d366 !important; color: white !important; }
-    .social-link { display: inline-block; padding: 12px 25px; margin: 5px; border-radius: 10px; text-decoration: none; font-weight: bold; color: white !important; font-size: 18px; }
+    .social-link { display: inline-block; padding: 15px 30px; margin: 10px; border-radius: 12px; text-decoration: none; font-weight: bold; color: white !important; font-size: 20px; }
     .fb { background-color: #1877F2; } .tt { background-color: #000000; border: 1px solid #fe2c55; } .yt { background-color: #FF0000; }
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<h1>⚡ حسين عوده للكهرباء الحديثة</h1>", unsafe_allow_html=True)
 
-# 5. أزرار الاتصال (النسخة الذكية للماسنجر)
+# 5. أزرار الاتصال (حل الماسنجر النهائي)
 col1, col2 = st.columns(2)
 with col1:
     if st.button("📞 اتصل بنا الآن", use_container_width=True):
@@ -48,16 +61,44 @@ with col2:
 
 st.write("---")
 
-# 6. روابط السوشيال ميديا
+# 6. روابط التواصل الاجتماعي
 st.markdown("<h2>🔗 تابعونا على منصاتنا</h2>", unsafe_allow_html=True)
 st.markdown("""
     <div style="text-align: center;">
-        <a href="#" target="_blank" class="social-link fb">🔵 فيسبوك</a>
-        <a href="#" target="_blank" class="social-link tt">⚫ تيك توك</a>
-        <a href="#" target="_blank" class="social-link yt">🔴 يوتيوب</a>
+        <a href="https://facebook.com" target="_blank" class="social-link fb">🔵 فيسبوك</a>
+        <a href="https://tiktok.com" target="_blank" class="social-link tt">⚫ تيك توك</a>
+        <a href="https://youtube.com" target="_blank" class="social-link yt">🔴 يوتيوب</a>
     </div>
 """, unsafe_allow_html=True)
 
 st.write("---")
 
-# 7. معرض الأعمال
+# 7. معرض الأعمال (فيديوهات وصور)
+st.markdown("<h2>🎥 معرض أعمالنا</h2>", unsafe_allow_html=True)
+tab1, tab2 = st.tabs(["🎥 فيديوهات الشغل", "🖼️ صور المواقع"])
+with tab1:
+    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+with tab2:
+    st.image(["https://via.placeholder.com/400x300"], caption=["تأسيسات حديثة"], width=400)
+
+st.write("---")
+
+# 8. عرض التعليقات
+st.markdown("<h2>🌟 آراء وشهادات العملاء</h2>", unsafe_allow_html=True)
+for r in st.session_state.reviews:
+    st.markdown(f'<div class="review-box"><div class="client-name">👤 {r.get("name")}</div><div class="client-text">{r.get("text")}</div></div>', unsafe_allow_html=True)
+
+# 9. فورم إضافة التعليق (كاملة وبدون أخطاء)
+st.write("---")
+st.markdown("### ✍️ أضف تقييمك وتجربتك معنا")
+with st.form("hussien_final_verified", clear_on_submit=True):
+    u_name = st.text_input("اسمك الموقر:")
+    options = ["اختر رأياً جاهزاً...", "شغل احترافي وتسليم في الموعد ⚡", "أمانة ودقة في المواعيد والخامات ✅", "تأسيس كهرباء ممتاز ⭐"]
+    selected = st.selectbox("رأيك في الخدمة:", options)
+    u_custom = st.text_area("رسالتك لنا:")
+    if st.form_submit_button("إرسال للمراجعة والاعتماد ✨"):
+        final = u_custom if u_custom else (selected if selected != options[0] else "")
+        if u_name and final:
+            confirm_dialog(u_name, final)
+        else:
+            st.warning("⚠️ نرجو كتابة الاسم والتعليق")
